@@ -6,10 +6,10 @@ from datetime import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
 from playsound import playsound
 
-MINUTES: int= 1
+MINUTES: int= 30
 SOUND_FILE: str= './echo.mpeg'
 
-def run(minutes: int, sound_file: str):
+def run():
     log.info("Running SoundScheduler")
 
     now = datetime.now()
@@ -20,7 +20,7 @@ def run(minutes: int, sound_file: str):
         , 'interval'
         , id = "sound_scheduler"
         , start_date= start_date
-        , minutes= minutes)
+        , minutes= MINUTES)
     scheduler.start()
 
 def configure_log():
@@ -39,15 +39,7 @@ def play_sound():
 
 if __name__ == "__main__":
     configure_log()
-
-    parser = argparse.ArgumentParser(description='Process some integers.')
-    parser.add_argument('-m', '--minutes', type=int, metavar='minutes', default= 30 
-                            help='time elapsed in minutes')
-    parser.add_argument('-s', '--file', type=str, metavar='sound_file', default= './echo.mpeg' 
-                            help='sound file')
-    args = my_parser.parse_args()
-
-    run(args.minutes, args.sound_file)
+    run()
 
     # for to keep the app running
     while True:
