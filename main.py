@@ -2,6 +2,7 @@ import logging as log
 import time
 import argparse
 from datetime import datetime
+import os
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from playsound import playsound
@@ -35,7 +36,8 @@ def configure_log():
 
 def play_sound():
     log.info('playing sound')
-    playsound(SOUND_FILE)
+    sound_path = os.path.join(os.getcwd(), SOUND_FILE)
+    playsound(sound_path)
 
 if __name__ == "__main__":
     configure_log()
