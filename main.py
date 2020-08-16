@@ -7,8 +7,8 @@ import os
 from apscheduler.schedulers.background import BackgroundScheduler
 from playsound import playsound
 
-MINUTES: int= 30
-SOUND_FILE: str= './echo.mpeg'
+MINUTES: int= 20
+SOUND_FILE: str= 'echo.mpeg'
 
 def run():
     log.info("Running SoundScheduler")
@@ -21,7 +21,7 @@ def run():
         , 'interval'
         , id = "sound_scheduler"
         , start_date= start_date
-        , minutes= MINUTES)
+        , seconds= MINUTES)
     scheduler.start()
 
 def configure_log():
@@ -36,7 +36,8 @@ def configure_log():
 
 def play_sound():
     log.info('playing sound')
-    sound_path = os.path.join(os.getcwd(), SOUND_FILE)
+    root_path = os.path.dirname(os.path.realpath(__file__))
+    sound_path = os.path.join(root_path, SOUND_FILE)
     playsound(sound_path)
 
 if __name__ == "__main__":
