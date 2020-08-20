@@ -1,14 +1,16 @@
 import logging as log
 import time
 import argparse
-from datetime import datetime
 import os
+from datetime import datetime
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from playsound import playsound
 
-MINUTES: int= 20
+MINUTES: int= 30
 SOUND_FILE: str= 'echo.mpeg'
+
+ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
 
 def run():
     log.info("Running SoundScheduler")
@@ -21,23 +23,22 @@ def run():
         , 'interval'
         , id = "sound_scheduler"
         , start_date= start_date
-        , seconds= MINUTES)
+        , minutes= MINUTES)
     scheduler.start()
 
 def configure_log():
-    root_logger = log.getLogger()
-    root_logger.setLevel(log.INFO)
-    formatter = log.Formatter(
-        "%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s")
+	root_logger = log.getLogger()
+	root_logger.setLevel(log.INFO)
+	formatter = log.Formatter(
+		"%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s")
 
-    handler = log.StreamHandler()
-    handler.setFormatter(formatter)
-    root_logger.addHandler(handler)
+	handler = log.StreamHandler()
+	handler.setFormatter(formatter)
+	root_logger.addHandler(handler)
 
 def play_sound():
-    log.info('playing sound')
-    root_path = os.path.dirname(os.path.realpath(__file__))
-    sound_path = os.path.join(root_path, SOUND_FILE)
+    sound_path = os.path.join(ROOT_PATH, SOUND_FILE)
+    log.info(f'playing sound file {sound_path}')
     playsound(sound_path)
 
 if __name__ == "__main__":
